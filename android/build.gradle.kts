@@ -14,6 +14,15 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+
+    project.configurations.all {
+        resolutionStrategy {
+            // Примусово використовуємо версії, які не вимагають AGP 8.9+
+            force("androidx.browser:browser:1.8.0")
+            force("androidx.core:core:1.15.0")
+            force("androidx.core:core-ktx:1.15.0")
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {
