@@ -159,4 +159,41 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get frameworkLabel => 'Фреймворк';
+
+  @override
+  String get subtypeTender => 'Ніжний';
+
+  @override
+  String get subtypePassionate => 'Пристрасний';
+
+  @override
+  String get subtypeSmallKiss => 'Маленький цьом';
+
+  @override
+  String get subtypeFrenchKiss => 'З язиком';
+
+  @override
+  String get subtypeReluctant => 'Цьом ніби не любить';
+
+  @override
+  String get subtypeVaginal => 'Вагінальний';
+
+  @override
+  String get subtypeOralCuni => 'Оральний (куні)';
+
+  @override
+  String get subtypeOralBlowjob => 'Оральний (мінет)';
+
+  @override
+  String get easterEggTitle => 'Цілком таємно!';
+
+  @override
+  String get easterEggContent =>
+      'Моя Кохана змусила мене зробити цей застосунок :)';
+
+  @override
+  String get easterEggSubtitle => '(Якщо ви це читаєте, кліпніть двічі)';
+
+  @override
+  String get easterEggButton => 'Зрозумів, тримайся! ✊';
 }

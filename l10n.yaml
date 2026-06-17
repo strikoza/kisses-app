@@ -1,7 +1,7 @@
-# Конфігурація для генерації локалізації
+# Localization generation configuration
 arb-dir: lib/l10n
-# 🔥 Виправлено: вказуємо на існуючий український файл
-template-arb-file: app_uk.arb 
+# Ukrainian is the source/template language
+template-arb-file: app_uk.arb
 output-localization-file: app_localizations.dart
 untranslated-messages-file: untranslated_messages.txt
 output-class: AppLocalizations

@@ -46,6 +46,18 @@
     "statsCount": "К-сть",
     "statsOrgasms": "Оргазми",
     "easterEggHint": "Ще {remaining}... 🕵️",
-    "platformLabel": "Платформа", 
-    "frameworkLabel": "Фреймворк"
+    "platformLabel": "Платформа",
+    "frameworkLabel": "Фреймворк",
+    "subtypeTender": "Ніжний",
+    "subtypePassionate": "Пристрасний",
+    "subtypeSmallKiss": "Маленький цьом",
+    "subtypeFrenchKiss": "З язиком",
+    "subtypeReluctant": "Цьом ніби не любить",
+    "subtypeVaginal": "Вагінальний",
+    "subtypeOralCuni": "Оральний (куні)",
+    "subtypeOralBlowjob": "Оральний (мінет)",
+    "easterEggTitle": "Цілком таємно!",
+    "easterEggContent": "Моя Кохана змусила мене зробити цей застосунок :)",
+    "easterEggSubtitle": "(Якщо ви це читаєте, кліпніть двічі)",
+    "easterEggButton": "Зрозумів, тримайся! ✊"
 }
