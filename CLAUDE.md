@@ -46,6 +46,12 @@ The app is split by responsibility under `lib/`:
 - **Legacy migration**: older builds stored subtypes as Ukrainian display strings. `normalizeSubtypeKey` (driven by `legacySubtypeKeys`) converts them to keys inside `ActivityRecord.fromJson`; `AppState._loadData` re-saves once after decoding so data persists in the new format. Update `legacySubtypeKeys` if old strings ever change.
 - **`.arb` workflow**: `app_uk.arb` is the template / source language (set in `l10n.yaml`); Ukrainian is the default. Supported locales are `uk` and `en`. After editing any `.arb`, run `flutter gen-l10n` and commit the regenerated `app_localizations*.dart` (they are tracked, not gitignored). `KissesApp` forces a full `MaterialApp` rebuild on language change via `key: ValueKey(state.languageCode)`.
 
+### Testing
+
+- `test/migration_test.dart` covers the legacy-subtype → key migration and JSON round-trip; `test/widget_test.dart` is a boot smoke test.
+- Tests that construct `AppState` must seed persistence first with `SharedPreferences.setMockInitialValues({})` — `AppState()` reads prefs in its constructor.
+- The smoke test asserts the **default `uk` locale's** Ukrainian display strings (e.g. `'Цьомчики'`, `'Семкс'`). Changing the default language, those `.arb` values, or the default-locale logic in `AppState.currentLocale` will break it — update the expectations together.
+
 ## Conventions
 
 - Code comments are in English.
