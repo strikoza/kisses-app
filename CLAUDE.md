@@ -35,6 +35,10 @@ The app is split by responsibility under `lib/`:
 - **Persistence**: `shared_preferences`. Records are JSON-encoded as a list under the key `kisses_app_data`; settings live under `setting_animation`, `setting_sound`, `setting_language` (keys are constants in `AppState`). Every mutating `AppState` method calls `_saveData()`/`_saveSettings()` then `notifyListeners()`.
 - **Data model**: `ActivityRecord` (`id`, `date`, `ActivityType.kiss|sex`, `subtype`, `orgasmCount`). `id` is a microsecond timestamp + random suffix. Sound playback lives in `AppState.playActivitySound` (one reusable `AudioPlayer`, disposed in `AppState.dispose`).
 
+### Android release signing
+
+`android/app/build.gradle.kts` loads release signing details from `android/key.properties` **only if that file exists**. The file is gitignored and absent in fresh checkouts — in that case the `release` build type falls back to the debug keys, so `flutter build apk` / `flutter run --release` work with no local setup. To sign a real release, copy `android/key.properties.example` to `android/key.properties` and fill in the keystore values (never commit `key.properties` or the keystore).
+
 ### Localization
 
 - **Subtypes are stable, locale-independent keys.** `ActivityRecord.subtype` stores an enum name (e.g. `'tender'`, `'vaginal'`) defined by `KissSubtype`/`SexSubtype` in `models/subtypes.dart` — never display text. The enums are the single source of truth for the lists shown in the tracker and the calendar edit sheet (`subtypeKeysFor`).

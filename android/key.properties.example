@@ -1,0 +1,8 @@
+# Copy this file to android/key.properties and fill in your own values to sign
+# release builds. android/key.properties is gitignored — never commit it or the
+# keystore it points to.
+# See https://flutter.dev/to/reference-keystore
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=/absolute/path/to/upload-keystore.jks
