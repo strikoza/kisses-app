@@ -54,7 +54,9 @@ class _StatsScreenState extends State<StatsScreen>
     final sexOrgasmStats = state.getOrgasmStatsByType(ActivityType.sex);
     final loc = AppLocalizations.of(context)!;
 
-    final activeColor = _tabController.index == 0 ? Colors.pink : Colors.purple;
+    final activeColor =
+        (_tabController.index == 0 ? ActivityType.kiss : ActivityType.sex)
+            .color;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,8 +66,9 @@ class _StatsScreenState extends State<StatsScreen>
           indicatorColor: activeColor,
           indicatorWeight: 3,
           labelPadding: EdgeInsets.zero,
-          overlayColor:
-              WidgetStateProperty.all(activeColor.withValues(alpha: 0.1)),
+          overlayColor: WidgetStateProperty.all(
+            activeColor.withValues(alpha: 0.1),
+          ),
           tabs: [
             Tab(
               child: Row(
@@ -73,9 +76,13 @@ class _StatsScreenState extends State<StatsScreen>
                 children: [
                   const Text('💋', style: TextStyle(fontSize: 20)),
                   const SizedBox(width: 8),
-                  Text(loc.kissesLabel,
-                      style: const TextStyle(
-                          color: Colors.pink, fontWeight: FontWeight.w600)),
+                  Text(
+                    loc.kissesLabel,
+                    style: const TextStyle(
+                      color: Colors.pink,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -83,12 +90,19 @@ class _StatsScreenState extends State<StatsScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.local_fire_department,
-                      color: Colors.purple, size: 22),
+                  const Icon(
+                    Icons.local_fire_department,
+                    color: Colors.purple,
+                    size: 22,
+                  ),
                   const SizedBox(width: 8),
-                  Text(loc.sexLabel,
-                      style: const TextStyle(
-                          color: Colors.purple, fontWeight: FontWeight.w600)),
+                  Text(
+                    loc.sexLabel,
+                    style: const TextStyle(
+                      color: Colors.purple,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -102,7 +116,7 @@ class _StatsScreenState extends State<StatsScreen>
             context,
             data: kissStats,
             orgasmData: null,
-            baseColor: Colors.pink,
+            baseColor: ActivityType.kiss.color,
             touchedIndex: _touchedIndexKiss,
             onTouch: (idx) {
               if (idx != -1 && idx != _touchedIndexKiss) {
@@ -123,7 +137,7 @@ class _StatsScreenState extends State<StatsScreen>
             context,
             data: sexStats,
             orgasmData: sexOrgasmStats,
-            baseColor: Colors.purple,
+            baseColor: ActivityType.sex.color,
             touchedIndex: _touchedIndexSex,
             onTouch: (idx) {
               if (idx != -1 && idx != _touchedIndexSex) {
@@ -182,7 +196,8 @@ class _StatsScreenState extends State<StatsScreen>
     }
 
     final totalCount = data.values.fold(0, (sum, val) => sum + val);
-    final totalOrgasms = orgasmData?.values.fold(0, (sum, val) => sum + val) ?? 0;
+    final totalOrgasms =
+        orgasmData?.values.fold(0, (sum, val) => sum + val) ?? 0;
 
     // Sort entries by the active metric before display.
     final sortedEntries = data.entries.toList();
@@ -210,8 +225,11 @@ class _StatsScreenState extends State<StatsScreen>
               if (orgasmData != null) ...[
                 const SizedBox(width: 40),
                 _buildSummaryCard(
-                    loc.summaryOrgasms, '$totalOrgasms', Colors.green),
-              ]
+                  loc.summaryOrgasms,
+                  '$totalOrgasms',
+                  Colors.green,
+                ),
+              ],
             ],
           ),
           const SizedBox(height: 20),
@@ -231,7 +249,8 @@ class _StatsScreenState extends State<StatsScreen>
                       return;
                     }
                     onTouch(
-                        pieTouchResponse.touchedSection!.touchedSectionIndex);
+                      pieTouchResponse.touchedSection!.touchedSectionIndex,
+                    );
                   },
                 ),
                 sectionsSpace: 2,
@@ -241,13 +260,16 @@ class _StatsScreenState extends State<StatsScreen>
                   final kv = entry.value;
                   final isTouched = index == touchedIndex;
 
-                  final color = baseColor
-                      .withValues(alpha: 1.0 - (index * 0.15).clamp(0.0, 0.5));
+                  final color = baseColor.withValues(
+                    alpha: 1.0 - (index * 0.15).clamp(0.0, 0.5),
+                  );
 
-                  final double opacity =
-                      (touchedIndex == -1 || isTouched) ? 1.0 : 0.4;
-                  final double radius =
-                      isTouched && enableAnimation ? 70.0 : 60.0;
+                  final double opacity = (touchedIndex == -1 || isTouched)
+                      ? 1.0
+                      : 0.4;
+                  final double radius = isTouched && enableAnimation
+                      ? 70.0
+                      : 60.0;
 
                   return PieChartSectionData(
                     color: color.withValues(alpha: color.a * opacity),
@@ -270,63 +292,31 @@ class _StatsScreenState extends State<StatsScreen>
             child: Row(
               children: [
                 Expanded(
-                    child: Text(loc.statsType,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey))),
-                // Count header
-                InkWell(
-                  onTap: onSortToggle,
-                  child: SizedBox(
-                    width: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Opacity(
-                          opacity: !sortByOrgasms ? 1.0 : 0.0,
-                          child: Icon(
-                              isAscending
-                                  ? Icons.arrow_upward
-                                  : Icons.arrow_downward,
-                              size: 16,
-                              color: Colors.blue),
-                        ),
-                        Text(loc.statsCount,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    !sortByOrgasms ? Colors.blue : Colors.grey)),
-                      ],
+                  child: Text(
+                    loc.statsType,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
                   ),
                 ),
-                // Orgasms header
+                _buildSortHeader(
+                  label: loc.statsCount,
+                  width: 70,
+                  isActive: !sortByOrgasms,
+                  isAscending: isAscending,
+                  inactiveColor: Colors.grey,
+                  onTap: onSortToggle,
+                ),
                 if (orgasmData != null) ...[
                   const SizedBox(width: 10),
-                  InkWell(
+                  _buildSortHeader(
+                    label: loc.statsOrgasms,
+                    width: 90,
+                    isActive: sortByOrgasms,
+                    isAscending: isAscending,
+                    inactiveColor: Colors.green,
                     onTap: onSortByOrgasmsToggle,
-                    child: SizedBox(
-                      width: 90,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Opacity(
-                            opacity: sortByOrgasms ? 1.0 : 0.0,
-                            child: Icon(
-                                isAscending
-                                    ? Icons.arrow_upward
-                                    : Icons.arrow_downward,
-                                size: 16,
-                                color: Colors.blue),
-                          ),
-                          Text(loc.statsOrgasms,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: sortByOrgasms
-                                      ? Colors.blue
-                                      : Colors.green)),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ],
@@ -347,12 +337,16 @@ class _StatsScreenState extends State<StatsScreen>
                   color: isTouched ? baseColor.withValues(alpha: 0.1) : null,
                   child: ListTile(
                     onTap: () => onTouch(index == touchedIndex ? -1 : index),
-                    leading: CircleAvatar(backgroundColor: baseColor, radius: 5),
+                    leading: CircleAvatar(
+                      backgroundColor: baseColor,
+                      radius: 5,
+                    ),
                     title: Text(
                       displayedSubtype,
                       style: TextStyle(
-                        fontWeight:
-                            isTouched ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isTouched
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         color: isTouched ? baseColor : Colors.black,
                       ),
                     ),
@@ -361,31 +355,76 @@ class _StatsScreenState extends State<StatsScreen>
                       children: [
                         SizedBox(
                           width: 70,
-                          child: Text('$count',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                          child: Text(
+                            '$count',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                         if (orgasmData != null) ...[
                           const SizedBox(width: 10),
                           SizedBox(
                             width: 90,
-                            child: Text('$orgasms',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.green)),
+                            child: Text(
+                              '$orgasms',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
                           ),
-                        ]
+                        ],
                       ],
                     ),
                   ),
                 );
               }).toList(),
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  /// A tappable sort-column header; the arrow is only visible while [isActive]
+  /// so both headers keep their layout width when the sort metric switches.
+  Widget _buildSortHeader({
+    required String label,
+    required double width,
+    required bool isActive,
+    required bool isAscending,
+    required Color inactiveColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        width: width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Opacity(
+              opacity: isActive ? 1.0 : 0.0,
+              child: Icon(
+                isAscending ? Icons.arrow_upward : Icons.arrow_downward,
+                size: 16,
+                color: Colors.blue,
+              ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isActive ? Colors.blue : inactiveColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -393,9 +432,14 @@ class _StatsScreenState extends State<StatsScreen>
   Widget _buildSummaryCard(String label, String value, Color color) {
     return Column(
       children: [
-        Text(value,
-            style: TextStyle(
-                fontSize: 32, fontWeight: FontWeight.bold, color: color)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
         Text(label, style: const TextStyle(fontSize: 14, color: Colors.grey)),
       ],
     );

@@ -1,6 +1,14 @@
+import 'package:flutter/material.dart' show Color, Colors;
+
 import 'subtypes.dart';
 
 enum ActivityType { kiss, sex }
+
+/// The accent color for each activity type — the single source of truth for
+/// the pink/purple theming shared by the tracker, calendar, and stats screens.
+extension ActivityTypeColor on ActivityType {
+  Color get color => this == ActivityType.sex ? Colors.purple : Colors.pink;
+}
 
 /// A single tracked activity. [subtype] holds a stable, locale-independent key
 /// (see `subtypes.dart`) — never display text.
@@ -19,11 +27,7 @@ class ActivityRecord {
     this.orgasmCount = 0,
   });
 
-  ActivityRecord copyWith({
-    String? subtype,
-    int? orgasmCount,
-    DateTime? date,
-  }) {
+  ActivityRecord copyWith({String? subtype, int? orgasmCount, DateTime? date}) {
     return ActivityRecord(
       id: id,
       date: date ?? this.date,
@@ -34,12 +38,12 @@ class ActivityRecord {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'date': date.toIso8601String(),
-        'type': type.index,
-        'subtype': subtype,
-        'orgasmCount': orgasmCount,
-      };
+    'id': id,
+    'date': date.toIso8601String(),
+    'type': type.index,
+    'subtype': subtype,
+    'orgasmCount': orgasmCount,
+  };
 
   factory ActivityRecord.fromJson(Map<String, dynamic> json) {
     return ActivityRecord(

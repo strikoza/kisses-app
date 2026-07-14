@@ -42,7 +42,6 @@ class TrackerScreen extends StatelessWidget {
               context,
               loc.kissesLabel,
               const Text('💋', style: TextStyle(fontSize: 28)),
-              Colors.pink,
               ActivityType.kiss,
             ),
             const SizedBox(height: 30),
@@ -50,7 +49,6 @@ class TrackerScreen extends StatelessWidget {
               context,
               loc.sexLabel,
               const Icon(Icons.local_fire_department, size: 38),
-              Colors.purple,
               ActivityType.sex,
               showOrgasmCounter: true,
             ),
@@ -64,15 +62,14 @@ class TrackerScreen extends StatelessWidget {
     BuildContext context,
     String title,
     Widget icon,
-    Color color,
     ActivityType type, {
     bool showOrgasmCounter = false,
   }) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        backgroundColor: color.withValues(alpha: 0.1),
-        foregroundColor: color,
+        backgroundColor: type.color.withValues(alpha: 0.1),
+        foregroundColor: type.color,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
@@ -106,13 +103,19 @@ class TrackerScreen extends StatelessWidget {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.fromLTRB(
-                20, 0, 20, MediaQuery.of(context).viewInsets.bottom + 20),
+              20,
+              0,
+              20,
+              MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(loc.addTitle(title),
-                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  loc.addTitle(title),
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 const SizedBox(height: 20),
                 Row(
                   children: [
@@ -129,7 +132,9 @@ class TrackerScreen extends StatelessWidget {
                         );
                         if (d != null) setModalState(() => selectedDate = d);
                       },
-                      child: Text(DateFormat('dd.MM.yyyy').format(selectedDate)),
+                      child: Text(
+                        DateFormat('dd.MM.yyyy').format(selectedDate),
+                      ),
                     ),
                   ],
                 ),
@@ -152,8 +157,7 @@ class TrackerScreen extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor:
-                          type == ActivityType.sex ? Colors.purple : Colors.pink,
+                      backgroundColor: type.color,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
@@ -170,8 +174,10 @@ class TrackerScreen extends StatelessWidget {
                       // there is no BuildContext use across an await here.
                       appState.playActivitySound(type);
                     },
-                    child:
-                        Text(loc.saveButton, style: const TextStyle(fontSize: 16)),
+                    child: Text(
+                      loc.saveButton,
+                      style: const TextStyle(fontSize: 16),
+                    ),
                   ),
                 ),
               ],

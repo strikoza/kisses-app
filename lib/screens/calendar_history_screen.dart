@@ -50,7 +50,11 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.fromLTRB(
-                20, 0, 20, MediaQuery.of(context).viewInsets.bottom + 20),
+              20,
+              0,
+              20,
+              MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +62,10 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(loc.editRecordTitle,
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    Text(
+                      loc.editRecordTitle,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
@@ -71,25 +77,28 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
                             content: Text(loc.deleteIrreversible),
                             actions: [
                               TextButton(
-                                  onPressed: () => Navigator.pop(c),
-                                  child: Text(loc.cancelButton)),
+                                onPressed: () => Navigator.pop(c),
+                                child: Text(loc.cancelButton),
+                              ),
                               TextButton(
                                 onPressed: () {
                                   HapticFeedback.heavyImpact();
-                                  context
-                                      .read<AppState>()
-                                      .deleteRecord(record.id);
+                                  context.read<AppState>().deleteRecord(
+                                    record.id,
+                                  );
                                   Navigator.pop(c);
                                   Navigator.pop(context);
                                 },
-                                child: Text(loc.yesDeleteButton,
-                                    style: const TextStyle(color: Colors.red)),
+                                child: Text(
+                                  loc.yesDeleteButton,
+                                  style: const TextStyle(color: Colors.red),
+                                ),
                               ),
                             ],
                           ),
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -111,17 +120,17 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
                   width: double.infinity,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: isSex ? Colors.purple : Colors.pink,
+                      backgroundColor: record.type.color,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       context.read<AppState>().updateRecord(
-                            record.copyWith(
-                              subtype: currentSubtype,
-                              orgasmCount: currentOrgasms,
-                            ),
-                          );
+                        record.copyWith(
+                          subtype: currentSubtype,
+                          orgasmCount: currentOrgasms,
+                        ),
+                      );
                       Navigator.pop(context);
                     },
                     child: Text(loc.updateButton),
@@ -164,15 +173,20 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
               ),
               calendarStyle: const CalendarStyle(
                 markerDecoration: BoxDecoration(
-                    color: Colors.pinkAccent, shape: BoxShape.circle),
+                  color: Colors.pinkAccent,
+                  shape: BoxShape.circle,
+                ),
                 todayDecoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.fromBorderSide(
-                      BorderSide(color: Colors.pinkAccent, width: 2.0)),
+                    BorderSide(color: Colors.pinkAccent, width: 2.0),
+                  ),
                   color: Colors.transparent,
                 ),
-                todayTextStyle:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                todayTextStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               calendarBuilders: CalendarBuilders(
                 markerBuilder: (context, date, events) {
@@ -187,9 +201,7 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
                         height: 6,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: rec.type == ActivityType.sex
-                              ? Colors.purple
-                              : Colors.pink,
+                          color: rec.type.color,
                         ),
                       );
                     }).toList(),
@@ -201,8 +213,11 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
             Expanded(
               child: events.isEmpty
                   ? Center(
-                      child: Text(loc.nothingToday,
-                          style: const TextStyle(color: Colors.grey)))
+                      child: Text(
+                        loc.nothingToday,
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    )
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: events.length,
@@ -216,27 +231,41 @@ class _CalendarHistoryScreenState extends State<CalendarHistoryScreen> {
                             _showEditDialog(context, e);
                           },
                           leading: e.type == ActivityType.sex
-                              ? const Icon(Icons.local_fire_department,
-                                  color: Colors.purple)
-                              : const Text('💋', style: TextStyle(fontSize: 20)),
-                          title: Text(displayedSubtype,
-                              style: const TextStyle(fontWeight: FontWeight.w500)),
-                          subtitle: (e.type == ActivityType.sex &&
-                                  e.orgasmCount > 0)
+                              ? const Icon(
+                                  Icons.local_fire_department,
+                                  color: Colors.purple,
+                                )
+                              : const Text(
+                                  '💋',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                          title: Text(
+                            displayedSubtype,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          subtitle:
+                              (e.type == ActivityType.sex && e.orgasmCount > 0)
                               ? Text(
                                   loc.orgasmsCountShort(e.orgasmCount),
                                   style: const TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 )
                               : null,
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(DateFormat('HH:mm').format(e.date),
-                                  style: const TextStyle(color: Colors.grey)),
+                              Text(
+                                DateFormat('HH:mm').format(e.date),
+                                style: const TextStyle(color: Colors.grey),
+                              ),
                               const SizedBox(width: 8),
-                              const Icon(Icons.edit, size: 16, color: Colors.grey),
+                              const Icon(
+                                Icons.edit,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
                             ],
                           ),
                         );
