@@ -96,7 +96,6 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('uk'),
     Locale('en'),
-    Locale('en', 'GB'),
   ];
 
   /// No description provided for @trackerTitle.
@@ -386,6 +385,78 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Фреймворк'**
   String get frameworkLabel;
+
+  /// No description provided for @subtypeTender.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ніжний'**
+  String get subtypeTender;
+
+  /// No description provided for @subtypePassionate.
+  ///
+  /// In uk, this message translates to:
+  /// **'Пристрасний'**
+  String get subtypePassionate;
+
+  /// No description provided for @subtypeSmallKiss.
+  ///
+  /// In uk, this message translates to:
+  /// **'Маленький цьом'**
+  String get subtypeSmallKiss;
+
+  /// No description provided for @subtypeFrenchKiss.
+  ///
+  /// In uk, this message translates to:
+  /// **'З язиком'**
+  String get subtypeFrenchKiss;
+
+  /// No description provided for @subtypeReluctant.
+  ///
+  /// In uk, this message translates to:
+  /// **'Цьом ніби не любить'**
+  String get subtypeReluctant;
+
+  /// No description provided for @subtypeVaginal.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вагінальний'**
+  String get subtypeVaginal;
+
+  /// No description provided for @subtypeOralCuni.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оральний (куні)'**
+  String get subtypeOralCuni;
+
+  /// No description provided for @subtypeOralBlowjob.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оральний (мінет)'**
+  String get subtypeOralBlowjob;
+
+  /// No description provided for @easterEggTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Цілком таємно!'**
+  String get easterEggTitle;
+
+  /// No description provided for @easterEggContent.
+  ///
+  /// In uk, this message translates to:
+  /// **'Моя Кохана змусила мене зробити цей застосунок :)'**
+  String get easterEggContent;
+
+  /// No description provided for @easterEggSubtitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'(Якщо ви це читаєте, кліпніть двічі)'**
+  String get easterEggSubtitle;
+
+  /// No description provided for @easterEggButton.
+  ///
+  /// In uk, this message translates to:
+  /// **'Зрозумів, тримайся! ✊'**
+  String get easterEggButton;
 }
 
 class _AppLocalizationsDelegate
@@ -406,18 +477,6 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-  // Lookup logic when language+country codes are specified.
-  switch (locale.languageCode) {
-    case 'en':
-      {
-        switch (locale.countryCode) {
-          case 'GB':
-            return AppLocalizationsEnGb();
-        }
-        break;
-      }
-  }
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':

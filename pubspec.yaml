@@ -9,23 +9,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Для графіків
-  fl_chart: ^1.1.1 
-  # Для календаря
-  table_calendar: ^3.1.2 
-  # Для форматування дат
-  intl: ^0.20.2 
-  # Для зручної роботи зі станом
-  provider: ^6.1.2 
-  # Для групування даних (collection)
+  # Cupertino icons font (used by the iOS page-transition builder)
+  cupertino_icons: ^1.0.8
+  # Charts
+  fl_chart: ^1.1.1
+  # Calendar
+  table_calendar: ^3.1.2
+  # Date formatting
+  intl: ^0.20.2
+  # State management
+  provider: ^6.1.2
+  # Grouping helpers (collection)
   collection: ^1.18.0
-  # Для реалізації збереження даних на Android
+  # Local persistence
   shared_preferences: ^2.2.2
   flutter_localizations:
     sdk: flutter
-  # Звук
+  # Sound
   audioplayers: ^6.0.0
-  # Про програму
+  # App / build info
   package_info_plus: ^9.0.0
   url_launcher: ^6.3.2
 
@@ -36,7 +38,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # 🔥 Вмикаємо автоматичну генерацію локалізації
-  generate: true 
+  # Enable automatic localization (gen-l10n) generation
+  generate: true
   assets:
     - assets/sounds/
