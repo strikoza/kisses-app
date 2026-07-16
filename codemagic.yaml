@@ -1,0 +1,38 @@
+# Codemagic CI configuration (https://docs.codemagic.io/yaml/yaml-getting-started/)
+#
+# Replaces the UI-configured "Default Workflow". Kept deliberately lean:
+# analyze + test, then a release APK and an *unsigned* iOS build (there is no
+# Apple signing set up; the iOS step only proves the app still compiles for
+# iOS). No publishing steps — artifacts are available from the build page.
+workflows:
+  flutter-release:
+    name: Flutter release (Android APK + unsigned iOS)
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      # Pinned to stable Xcode on purpose. The old workflow used "edge",
+      # which dropped support for deployment targets below iOS 15 and broke
+      # the build; the project now targets iOS 15.0.
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Analyze
+        script: flutter analyze
+      - name: Test
+        script: flutter test
+      - name: Build Android APK
+        script: flutter build apk --release
+      - name: Build iOS (unsigned)
+        script: flutter build ios --release --no-codesign
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/ios/iphoneos/*.app
