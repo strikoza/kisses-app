@@ -145,3 +145,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Custom build directories
+/BUILDS IOS ANDROID/
